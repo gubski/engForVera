@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Institute of Modern Knowledge named after A. M. Shirokov — Minsk</title>
+<style>
+:root{
+  --navy:#070d1f; --navy2:#0d1a3d; --blue:#2f6bff; --sky:#7fb0ff; --gold:#e8c068; --ink:#f5f7fb; --mute:#9aa6c4;
+  --light:#f5f5f7; --lightink:#1d1d1f; --lightmute:#6e6e73;
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--navy);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue","Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:6vh 7vw;
+  opacity:0;visibility:hidden;transform:scale(1.04);transition:opacity .9s var(--ease),transform 1.1s var(--ease),visibility 0s .9s;overflow:hidden}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .9s var(--ease),transform 1.1s var(--ease),visibility 0s}
+.slide.past{transform:scale(.96)}
+.slide.dark{background:radial-gradient(1200px 700px at 85% -10%,#173a96 0%,transparent 60%),radial-gradient(900px 600px at -10% 110%,#0f2a6b 0%,transparent 55%),var(--navy)}
+.slide.light{background:var(--light);color:var(--lightink)}
+.slide.light .mute{color:var(--lightmute)}
+.wrap{width:min(1180px,100%);position:relative;z-index:2}
+
+/* reveal */
+.r{opacity:0;transform:translateY(34px);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+.active .r{opacity:1;transform:none;filter:none}
+.active .r:nth-child(1){transition-delay:.15s}.active .r:nth-child(2){transition-delay:.28s}.active .r:nth-child(3){transition-delay:.41s}
+.active .r:nth-child(4){transition-delay:.54s}.active .r:nth-child(5){transition-delay:.67s}.active .r:nth-child(6){transition-delay:.8s}
+.active .r:nth-child(7){transition-delay:.93s}
+
+.eyebrow{font-size:clamp(12px,1.3vw,15px);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:2.2vh}
+.light .eyebrow{color:var(--blue)}
+h1{font-size:clamp(40px,7.4vw,108px);line-height:1.0;letter-spacing:-.035em;font-weight:700}
+h2{font-size:clamp(32px,5vw,70px);line-height:1.04;letter-spacing:-.03em;font-weight:700;margin-bottom:3vh}
+.grad{background:linear-gradient(100deg,#fff 10%,var(--sky) 55%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.light .grad{background:linear-gradient(100deg,#0b1d4d,var(--blue));-webkit-background-clip:text;background-clip:text}
+p.lead{font-size:clamp(17px,2vw,26px);line-height:1.45;color:#cfd8ee;max-width:46ch}
+.light p.lead{color:#3a3a3c}
+.mute{color:var(--mute)}
+
+/* hero */
+.hero{padding:0}
+.hero .bg{position:absolute;inset:0;background:url("isz-building.jpg") center/cover no-repeat;transform:scale(1.12);transition:transform 9s linear}
+.hero.active .bg{transform:scale(1)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,13,31,.35) 0%,rgba(7,13,31,.55) 45%,rgba(7,13,31,.95) 100%),linear-gradient(90deg,rgba(7,13,31,.7),transparent 70%)}
+.hero .wrap{padding:0 7vw;align-self:flex-end;padding-bottom:12vh}
+.hero h1 span{display:block}
+.hero p.lead{margin-top:3vh}
+.pill{display:inline-flex;gap:.6em;align-items:center;margin-top:4vh;padding:.7em 1.2em;border-radius:99px;background:rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.2);font-size:clamp(13px,1.3vw,16px)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2vw;margin-top:5vh}
+.stat{padding:3vh 1.6vw;border-radius:26px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px)}
+.stat b{display:block;font-size:clamp(30px,4.6vw,64px);letter-spacing:-.03em;font-weight:700;line-height:1.05}
+.stat span{display:block;margin-top:1vh;font-size:clamp(12px,1.25vw,16px);color:var(--mute)}
+.stat.gold b{color:var(--gold)}
+
+/* timeline */
+.tl{position:relative;margin-top:5vh;display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vw}
+.tl::before{content:"";position:absolute;left:0;right:0;top:11px;height:2px;background:linear-gradient(90deg,var(--gold),var(--blue))}
+.tl .it{padding-top:44px;position:relative}
+.tl .it::before{content:"";position:absolute;top:0;left:0;width:24px;height:24px;border-radius:50%;background:var(--navy);border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(232,192,104,.15)}
+.tl .yr{font-size:clamp(28px,3.6vw,52px);font-weight:700;letter-spacing:-.03em}
+.tl p{margin-top:1vh;color:#cfd8ee;font-size:clamp(14px,1.45vw,19px);line-height:1.45}
+
+/* cards */
+.grid{display:grid;gap:1.6vw;margin-top:4vh}
+.g5{grid-template-columns:repeat(5,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{padding:3.2vh 1.8vw;border-radius:26px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(20,30,70,.08);transition:transform .5s var(--ease)}
+.card:hover{transform:translateY(-6px)}
+.card .ic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:26px;margin-bottom:2.2vh;background:linear-gradient(140deg,#e9f0ff,#fff3d6)}
+.card h3{font-size:clamp(17px,1.7vw,23px);letter-spacing:-.015em;margin-bottom:.8vh}
+.card p{font-size:clamp(13px,1.2vw,16px);line-height:1.45;color:var(--lightmute)}
+.card ul{list-style:none;margin-top:1.6vh}
+.card li{font-size:clamp(14px,1.3vw,17px);padding:.9vh 0;border-top:1px solid #ececf0;color:#3a3a3c}
+.dcard{padding:3.4vh 2vw;border-radius:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.dcard h3{font-size:clamp(20px,2.3vw,32px);letter-spacing:-.02em;margin-bottom:2vh}
+.dcard li{list-style:none;padding:1.1vh 0;border-top:1px solid rgba(255,255,255,.1);font-size:clamp(14px,1.45vw,19px);color:#d7def2}
+.dcard li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:.8em;vertical-align:middle}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.4vw;margin-top:5vh;counter-reset:s}
+.step{padding:3vh 1.4vw;border-radius:24px;background:#fff;box-shadow:0 12px 40px rgba(20,30,70,.08);counter-increment:s;font-size:clamp(13px,1.3vw,17px);line-height:1.4;color:#3a3a3c}
+.step::before{content:"0" counter(s);display:block;font-size:clamp(26px,3vw,42px);font-weight:700;letter-spacing:-.03em;background:linear-gradient(120deg,var(--blue),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:1.4vh}
+.quote{margin-top:4vh;font-size:clamp(18px,2.2vw,30px);letter-spacing:-.02em;font-weight:600;max-width:34ch}
+
+/* event */
+.event{margin-top:4vh;padding:4vh 3vw;border-radius:30px;background:linear-gradient(135deg,rgba(47,107,255,.35),rgba(232,192,104,.18));border:1px solid rgba(255,255,255,.14)}
+.event small{letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-size:clamp(11px,1.1vw,14px);font-weight:600}
+.event h3{font-size:clamp(22px,3vw,42px);letter-spacing:-.025em;margin-top:1.2vh;line-height:1.15}
+
+/* split */
+.split{display:grid;grid-template-columns:1.05fr 1fr;gap:4vw;align-items:center}
+.photo{border-radius:30px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45);aspect-ratio:4/3;background:#10204b}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.08);transition:transform 6s ease}
+.active .photo img{transform:scale(1)}
+.contact{margin-top:3vh;display:grid;gap:1.4vh}
+.contact div{padding:1.8vh 1.4vw;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);font-size:clamp(14px,1.45vw,19px)}
+.contact small{display:block;color:var(--mute);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.3em}
+
+.center{text-align:center}.center p.lead{margin-inline:auto}
+.big-end{font-size:clamp(44px,8vw,120px)}
+
+/* chrome */
+.progress{position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--blue));z-index:50;width:0;transition:width .8s var(--ease)}
+.count{position:fixed;right:28px;bottom:22px;z-index:50;font-size:13px;color:var(--mute);letter-spacing:.1em;font-variant-numeric:tabular-nums;mix-blend-mode:difference;color:#aaa}
+.nav{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:8px;z-index:50;padding:8px 12px;border-radius:99px;background:rgba(20,20,30,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.nav button{width:8px;height:8px;border-radius:50%;border:0;background:rgba(255,255,255,.4);cursor:pointer;transition:all .4s var(--ease);padding:0}
+.nav button.on{background:#fff;width:26px;border-radius:6px}
+.arrow{position:fixed;top:50%;z-index:50;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;background:rgba(120,130,160,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;font-size:20px;transform:translateY(-50%);opacity:.0;transition:opacity .3s}
+body:hover .arrow{opacity:.75}.arrow:hover{opacity:1!important}
+.arrow.l{left:18px}.arrow.r2{right:18px}
+
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .g5,.steps{grid-template-columns:1fr 1fr}
+  .g3,.g2,.tl{grid-template-columns:1fr}
+  .tl::before{display:none}
+  .split{grid-template-columns:1fr}
+  .slide{padding:7vh 6vw 10vh;align-items:flex-start;overflow-y:auto}
+  .arrow{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="progress" id="bar"></div>
+<main class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide dark hero">
+  <div class="bg"></div>
+  <div class="wrap">
+    <div class="eyebrow r">Minsk · Belarus</div>
+    <h1 class="r"><span>Institute of</span><span class="grad">Modern Knowledge</span></h1>
+    <p class="lead r">Named after A. M. Shirokov — one of the first private universities in Belarus, built around art, design and communication.</p>
+    <div class="pill r"><i></i>Press → or swipe to begin</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide dark">
+  <div class="wrap">
+    <div class="eyebrow r">01 · At a glance</div>
+    <h2 class="r">A private university<br><span class="grad">with a creative core.</span></h2>
+    <p class="lead r">A humanities-and-arts institute in the Belarusian capital, focused on specialists in culture, creative industries and communication.</p>
+    <div class="stats r">
+      <div class="stat gold"><b data-count="1990">1990</b><span>Year founded</span></div>
+      <div class="stat"><b data-count="2004">2004</b><span>Named after A. M. Shirokov</span></div>
+      <div class="stat"><b data-count="2">2</b><span>Main faculties</span></div>
+      <div class="stat"><b>Minsk</b><span>Filimonova St., 69</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide dark">
+  <div class="wrap">
+    <div class="eyebrow r">02 · History</div>
+    <h2 class="r">From a bold idea<br><span class="grad">to a named institute.</span></h2>
+    <div class="tl r">
+      <div class="it"><div class="yr">October 1990</div><p>The institute is founded, among the first non-state higher education institutions in Belarus.</p></div>
+      <div class="it"><div class="yr">The founder</div><p>Aleksandr M. Shirokov — Doctor of Technical Sciences, professor, corresponding member of the National Academy of Sciences of Belarus.</p></div>
+      <div class="it"><div class="yr">January 2004</div><p>Renamed by a Minsk City Executive Committee decision: “Institute of Modern Knowledge named after A. M. Shirokov”.</p></div>
+    </div>
+    <p class="quote r grad">The goal: develop non-state higher education and train specialists who can work across many professional fields.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide light">
+  <div class="wrap">
+    <div class="eyebrow r">03 · Fields of study</div>
+    <h2 class="r">Five directions,<br><span class="grad">one creative idea.</span></h2>
+    <div class="grid g5 r">
+      <div class="card"><div class="ic">🎵</div><h3>Art &amp; Music</h3><p>Pop performance and music creation.</p></div>
+      <div class="card"><div class="ic">🎨</div><h3>Design</h3><p>Graphic, multimedia and environmental design.</p></div>
+      <div class="card"><div class="ic">📚</div><h3>Humanities</h3><p>Culturology and socio-cultural activity.</p></div>
+      <div class="card"><div class="ic">🌍</div><h3>Languages</h3><p>Foreign languages and intercultural communication.</p></div>
+      <div class="card"><div class="ic">🎬</div><h3>Management</h3><p>Managing cultural and creative projects.</p></div>
+    </div>
+    <p class="lead r" style="margin-top:4vh">These directions combine creative ability, professional knowledge and practical skills.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide dark">
+  <div class="wrap">
+    <div class="eyebrow r">04 · Structure</div>
+    <h2 class="r">Two faculties.<br><span class="grad">Two ways to create.</span></h2>
+    <div class="grid g2 r">
+      <div class="dcard"><h3>Faculty of Arts</h3>
+        <ul><li>Musical art</li><li>Design</li><li>Artistic creativity</li><li>Producing</li></ul></div>
+      <div class="dcard"><h3>Faculty of Humanities</h3>
+        <ul><li>Culturology</li><li>Intercultural communication</li><li>Foreign languages</li><li>Socio-cultural management</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide light">
+  <div class="wrap">
+    <div class="eyebrow r">05 · Learning process</div>
+    <h2 class="r">Not only theory —<br><span class="grad">practice and independence.</span></h2>
+    <div class="steps r">
+      <div class="step">Study of core subjects in the chosen field</div>
+      <div class="step">Creative and academic projects</div>
+      <div class="step">Development of communication skills</div>
+      <div class="step">Preparation for work in a chosen profession</div>
+      <div class="step">Option to continue to a master’s programme</div>
+    </div>
+    <p class="quote r">Special attention goes to a creative approach and to students’ independence.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide dark">
+  <div class="wrap">
+    <div class="eyebrow r">06 · Science &amp; creativity</div>
+    <h2 class="r">Where students<br><span class="grad">take part.</span></h2>
+    <div class="grid g3 r" style="grid-template-columns:repeat(5,1fr)">
+      <div class="dcard" style="padding:3vh 1.2vw"><h3 style="font-size:clamp(15px,1.6vw,21px);margin:0">Scientific &amp; practical conferences</h3></div>
+      <div class="dcard" style="padding:3vh 1.2vw"><h3 style="font-size:clamp(15px,1.6vw,21px);margin:0">Educational projects</h3></div>
+      <div class="dcard" style="padding:3vh 1.2vw"><h3 style="font-size:clamp(15px,1.6vw,21px);margin:0">Creative competitions</h3></div>
+      <div class="dcard" style="padding:3vh 1.2vw"><h3 style="font-size:clamp(15px,1.6vw,21px);margin:0">Exhibitions &amp; cultural events</h3></div>
+      <div class="dcard" style="padding:3vh 1.2vw"><h3 style="font-size:clamp(15px,1.6vw,21px);margin:0">International academic cooperation</h3></div>
+    </div>
+    <div class="event r">
+      <small>December 2025</small>
+      <h3>International scientific and practical conference “Culture, Art and Communications in Modern Conditions”</h3>
+      <p class="mute" style="margin-top:1vh;font-size:clamp(13px,1.3vw,17px)">The institute took part in organizing the event.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide light">
+  <div class="wrap">
+    <div class="eyebrow r">07 · Careers</div>
+    <h2 class="r">What graduates<br><span class="grad">can become.</span></h2>
+    <div class="grid g3 r">
+      <div class="card"><div class="ic">🖌️</div><h3>Design</h3><ul><li>Graphic designer</li><li>Multimedia designer</li></ul></div>
+      <div class="card"><div class="ic">🎤</div><h3>Music &amp; production</h3><ul><li>Musician or vocalist</li><li>Music teacher</li><li>Creative project producer</li></ul></div>
+      <div class="card"><div class="ic">🤝</div><h3>Culture &amp; communication</h3><ul><li>Intercultural communication specialist</li><li>Culture and arts manager</li><li>Event organizer</li><li>Advertising &amp; media specialist</li></ul></div>
+    </div>
+    <p class="lead r mute" style="margin-top:3vh;font-size:clamp(13px,1.3vw,17px)">Specific career options depend on the chosen specialty and qualification.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide dark">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow r">08 · Location &amp; contacts</div>
+      <h2 class="r">Find us in <span class="grad">Minsk.</span></h2>
+      <div class="contact r">
+        <div><small>Address</small>Filimonova St., 69, Minsk, Republic of Belarus</div>
+        <div><small>Phone</small>+375 17 285-70-83</div>
+        <div><small>Website</small>isz.minsk.by</div>
+      </div>
+    </div>
+    <div class="photo r"><img src="isz-building.jpg" alt="Main building of the Institute of Modern Knowledge, Minsk"></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide light">
+  <div class="wrap">
+    <div class="eyebrow r">09 · Significance</div>
+    <h2 class="r">Why it matters<br><span class="grad">in Belarusian education.</span></h2>
+    <div class="grid g3 r">
+      <div class="card"><div class="ic">⚖️</div><h3>A distinct blend</h3><p>Humanities and creative education combined in one institute.</p></div>
+      <div class="card"><div class="ic">🎓</div><h3>Professional knowledge</h3><p>Art, design, languages, communication and cultural project management.</p></div>
+      <div class="card"><div class="ic">✨</div><h3>Creative potential</h3><p>Helps young specialists develop their talent and independence.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide dark center">
+  <div class="wrap">
+    <div class="eyebrow r">Conclusion</div>
+    <h1 class="r big-end"><span class="grad">Creativity,<br>culture, communication.</span></h1>
+    <p class="lead r" style="margin-top:4vh">A university with a history that began in 1990 — for those who want to link their future profession with creativity, culture and communication.</p>
+    <p class="r" style="margin-top:5vh;font-size:clamp(22px,3vw,40px);font-weight:600;letter-spacing:-.02em">Thank you</p>
+  </div>
+</section>
+
+</main>
+
+<button class="arrow l" id="prev" aria-label="Previous">‹</button>
+<button class="arrow r2" id="next" aria-label="Next">›</button>
+<div class="nav" id="nav"></div>
+<div class="count" id="count"></div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var nav=document.getElementById('nav'),bar=document.getElementById('bar'),count=document.getElementById('count');
+  var cur=-1,lock=false;
+  slides.forEach(function(_,i){var b=document.createElement('button');b.setAttribute('aria-label','Slide '+(i+1));b.onclick=function(){go(i)};nav.appendChild(b)});
+  function counters(s){
+    [].forEach.call(s.querySelectorAll('[data-count]'),function(el){
+      var end=+el.dataset.count,start=end>100?end-60:0,t0=null;
+      function step(t){if(!t0)t0=t;var p=Math.min((t-t0)/1400,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(start+(end-start)*e);if(p<1)requestAnimationFrame(step)}
+      requestAnimationFrame(step);
+    });
+  }
+  function go(n){
+    if(n<0||n>=slides.length||n===cur||lock)return;
+    lock=true;setTimeout(function(){lock=false},550);
+    slides.forEach(function(s,i){s.classList.toggle('active',i===n);s.classList.toggle('past',i<n)});
+    [].forEach.call(nav.children,function(b,i){b.classList.toggle('on',i===n)});
+    bar.style.width=((n+1)/slides.length*100)+'%';
+    count.textContent=(n+1)+' / '+slides.length;
+    cur=n;counters(slides[n]);
+    try{history.replaceState(null,'','#'+(n+1))}catch(e){}
+  }
+  var next=function(){go(cur+1)},prev=function(){go(cur-1)};
+  document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;
+  document.addEventListener('keydown',function(e){
+    if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();next()}
+    else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();prev()}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+    else if(e.key==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+  });
+  var wheelT=0;
+  window.addEventListener('wheel',function(e){var now=Date.now();if(now-wheelT<900||Math.abs(e.deltaY)<20)return;wheelT=now;e.deltaY>0?next():prev()},{passive:true});
+  var sx=0,sy=0;
+  document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))dx<0?next():prev()},{passive:true});
+  var h=parseInt(location.hash.slice(1),10);go(h>0&&h<=slides.length?h-1:0);
+})();
+</script>
+</body>
+</html>
